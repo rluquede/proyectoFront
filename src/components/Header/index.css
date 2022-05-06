@@ -22,3 +22,8 @@
 .close{
    background-color: transparent !important;
 }
+
+img{
+    width: 70px;
+    margin-left: 15px;
+}

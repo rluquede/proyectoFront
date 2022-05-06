@@ -2,14 +2,16 @@ import React from "react";
 import { CloseButton, Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Link } from "wouter";
 import "./index.css"
+import logo from '../../img/logo.png';
+
 
 export default function Header(){
     return(
         <Navbar bg="dark" expand="lg" fixed="top" sticky="top" className="navBar" >
             <Container fluid>
-                <Navbar.Brand href="#">
-                    <img src="" alt="" fluid/>
-                </Navbar.Brand>
+                <Navbar.Brand href="/">
+                <img src={logo} alt="logo"/>
+                </Navbar.Brand> 
                 <Navbar.Toggle className="boton" aria-controls={`offcanvasNavbar-expand-lg`}/>
                 <Navbar.Offcanvas id={`offcanvasNavbar-expand-lg`} aria-labelledby={`offcanvasNavbarLabel-expand-lg`} placement="end" className="canvas">
                     <Offcanvas.Header closeButton closeVariant="white">
