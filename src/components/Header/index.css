@@ -1,29 +1,41 @@
-.navBar{
-    opacity: 0.7;
-    background-color: black;
-}
+
 #offcanvasNavbar-expand-lg{
     background-color: rgb(36, 36, 36);
-    opacity: 0.7;
+    color: white;
 }
 .enlace{
     color: white !important;
     font-size: 20px;
-    background-color: transparent !important;
-    margin:  0 7px;
+    margin:  0 10px;
     letter-spacing: 0.05em;
-    line-height: 24px;
+    line-height: 35px;
     transition: all 0.5s;
     font-weight: 500;
+    text-decoration: none;
 }
 .boton{
     background-color: white !important;
 }
-.close{
-   background-color: transparent !important;
-}
 
-img{
+.logo{
     width: 70px;
     margin-left: 15px;
+}
+
+#userDropdown{
+    color: white !important;
+    font-size: 20px;
+    margin:  0 10px;
+    letter-spacing: 0.05em;
+    line-height: 20px;
+    transition: all 0.5s;
+    font-weight: 500;
+    text-decoration: none;
+    background-color: rgb(36, 36, 36);
+}
+.dropdown-menu{
+    background-color: rgb(36, 36, 36) !important;
+}
+#dropdown{
+    background-color: rgb(36, 36, 36) !important
 }
