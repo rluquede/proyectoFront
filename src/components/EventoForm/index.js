@@ -1,5 +1,5 @@
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import React, { useState } from "react";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import React from "react";
 import {
   Button,
   Col,
