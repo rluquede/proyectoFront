@@ -19,11 +19,12 @@ export default function EventoForm() {
   const crearEvento = (event) => {
     event.preventDefault();
 
-    if (event.target[5].files[0]) {
-      let file = event.target[5].files[0];
+    if (event.target[6].files[0]) {
+      let file = event.target[6].files[0];
       let storageRef = ref(storage, "eventos/" + file.name);
       uploadBytes(storageRef, file).then((snapshot) => {
         getDownloadURL(ref(storage, "eventos/" + file.name)).then((url) => {
+          console.log(url)
           evento.imgUrl = url;
         });
       });
@@ -33,9 +34,9 @@ export default function EventoForm() {
 
     evento.titulo = event.target[0].value;
     evento.lugar = event.target[1].value;
-    evento.fecha = event.target[2].value;
-    evento.stock = parseInt(event.target[3].value);
-    evento.precio = parseFloat(event.target[4].value);
+    evento.fecha = event.target[2].value + " _ " + event.target[3].value;
+    evento.stock = parseInt(event.target[4].value);
+    evento.precio = parseFloat(event.target[5].value);
 
     postEventos(evento);
   };
@@ -88,22 +89,35 @@ export default function EventoForm() {
               </FormGroup>
             </Row>
             <Row>
-              <FormGroup as={Col} md="6">
+              <FormGroup as={Col} md="3">
                 <FloatingLabel
-                  label="Fecha del evento"
+                  label="Fecha del fin evento"
                   className="mb-3"
-                  controlId="evento.fecha"
+                  controlId="evento.fechaInicio"
                 >
                   <FormControl
-                    type="text"
-                    placeholder="Fecha del evento"
-                    name="fecha"
+                    type="date"
+                    placeholder="Fecha de inicio del evento"
+                    name="fechaInicio"
                     required
                   />
                 </FloatingLabel>
                 <FormControl.Feedback type="invalid">
                   Debes de introducir la fecha del evento
                 </FormControl.Feedback>
+              </FormGroup>
+              <FormGroup as={Col} md="3">
+                <FloatingLabel
+                  label="Fecha del fin evento"
+                  className="mb-3"
+                  controlId="evento.fechaFin"
+                >
+                  <FormControl
+                    type="date"
+                    placeholder="Fecha de fin del evento"
+                    name="fechaFin"
+                  />
+                </FloatingLabel>
               </FormGroup>
               <FormGroup as={Col} md="3">
                 <FloatingLabel

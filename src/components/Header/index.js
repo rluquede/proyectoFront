@@ -15,6 +15,7 @@ import { Link } from "wouter";
 
 export default function Header() {
   const { user, isAuthenticated } = useAuth0();
+
   return (
     <Navbar bg="dark" expand="lg" fixed="top" sticky="top" className="navBar">
       <Container fluid>

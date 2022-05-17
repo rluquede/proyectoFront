@@ -1,6 +1,6 @@
 
 #offcanvasNavbar-expand-lg{
-    background-color: rgb(36, 36, 36);
+    background-color: #212529;
     color: white;
 }
 .enlace{
@@ -31,11 +31,15 @@
     transition: all 0.5s;
     font-weight: 500;
     text-decoration: none;
-    background-color: rgb(36, 36, 36);
+    background-color: #212529;
 }
 .dropdown-menu{
-    background-color: rgb(36, 36, 36) !important;
+    background-color: #212529 !important;
 }
 #dropdown{
-    background-color: rgb(36, 36, 36) !important
+    background-color: #212529 !important
+}
+
+.enlaces{
+    background-color:  #212529 !important;
 }
