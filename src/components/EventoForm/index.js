@@ -36,7 +36,7 @@ export default function EventoForm() {
 
     evento.titulo = event.target[0].value;
     evento.lugar = event.target[1].value;
-    if(event.target[3].value){
+    if(event.target[3].value && event.target[3].value != event.target[2].value ){
       evento.fecha = event.target[2].value + "/" + event.target[3].value;
     }else{
       evento.fecha = event.target[2].value

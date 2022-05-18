@@ -66,11 +66,11 @@ export default function EventoVista(props) {
               <h1>{evento.titulo}</h1>
             </Row>
             <Row>
-              <Col xs="6" lg="12" className="mt-3">
+              <Col lg="12" className="mt-3">
                 <h3>{evento.lugar}</h3>
               </Col>
-              <Col xs="6" lg="12" className="mt-3">
-                <h6>{(evento.fecha)}</h6>
+              <Col  lg="12" className="mt-3">
+                <h5>{(evento.fecha)}</h5>
               </Col>
             </Row>
           </Col>
@@ -149,26 +149,25 @@ export default function EventoVista(props) {
                 </FormGroup>
               </Row>
               <Row>
-                <FormGroup as={Col} md="8" xs="6">
+                <FormGroup as={Col} lg="6" md="6" xs="6" >
                   <Form.Check
                     type="switch"
                     id="condiciones"
-                    
+                    className="justify-content-start"
                   >
                     <Form.Check.Input type="checkbox" id="condiciones" required />
                     <Form.Check.Label>Acepto los <Link to="/terminos">Terminos y Condiciones</Link> de la Compra</Form.Check.Label>
                   </Form.Check>
 
                 </FormGroup>
-                <Col md="2">
-                </Col>
-                <Col md="2" xs="6">
+                
+                <Col md="6" lg="6" xs="6">
                   <h3>{precio.toString()}€</h3>
                 </Col>
               </Row>
 
-              <FormGroup as={Col} >
-                <Button type="submit"> Comprar </Button>
+              <FormGroup  className="button">
+                <Button type="submit" size="lg" > Comprar </Button>
               </FormGroup>
             </Form>
           </Col>

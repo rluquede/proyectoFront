@@ -1,16 +1,14 @@
 .fotoEvento{
-    height: 50vh;
-    width: 100%;
-   
+    height: 55vh;
+   width: 90%;
 }
 .filaCabecera{
-    padding: 0 !important;
-    margin-bottom: 5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid black;
 }
 
-.infoEvento{
-    margin-top: 10rem !important;
-}
+
 
 .formCompra{
     margin-top: 10rem !important;
@@ -19,4 +17,9 @@
 
 .datosCompra{
     margin-bottom: 5em;
+    margin-top: -1em!important;
+}
+
+.button{
+    margin-top: 3em;
 }
