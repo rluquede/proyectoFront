@@ -11,10 +11,12 @@ import {
   FormLabel,
   Row,
 } from "react-bootstrap";
+import { useLocation } from "wouter";
 import storage from "../../firebase/firebaseConfig";
 import { postEventos } from "../../services/eventos/eventos";
 
 export default function EventoForm() {
+  const [location, setLocation] = useLocation();
   let evento = new Object();
   const crearEvento = (event) => {
     event.preventDefault();
@@ -34,7 +36,11 @@ export default function EventoForm() {
 
     evento.titulo = event.target[0].value;
     evento.lugar = event.target[1].value;
-    evento.fecha = event.target[2].value + " _ " + event.target[3].value;
+    if(event.target[3].value){
+      evento.fecha = event.target[2].value + "/" + event.target[3].value;
+    }else{
+      evento.fecha = event.target[2].value
+    }
     evento.stock = parseInt(event.target[4].value);
     evento.precio = parseFloat(event.target[5].value);
 

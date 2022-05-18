@@ -20,9 +20,9 @@ export default function Header() {
     <Navbar bg="dark" expand="lg" fixed="top" sticky="top" className="navBar">
       <Container fluid>
         <Navbar.Brand>
-          <Link to="/">
+          <a href="/">
             <img src={logo} alt="logo" className="logo" />
-          </Link>
+          </a>
         </Navbar.Brand>
         <Navbar.Toggle
           className="boton"

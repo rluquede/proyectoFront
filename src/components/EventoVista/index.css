@@ -5,6 +5,7 @@
 }
 .filaCabecera{
     padding: 0 !important;
+    margin-bottom: 5em;
 }
 
 .infoEvento{
@@ -14,4 +15,8 @@
 .formCompra{
     margin-top: 10rem !important;
     
+}
+
+.datosCompra{
+    margin-bottom: 5em;
 }
