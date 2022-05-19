@@ -36,7 +36,7 @@ export default function Header() {
         >
           <Offcanvas.Header closeButton closeVariant="white"></Offcanvas.Header>
           <Offcanvas.Body>
-            <Nav className="justify-content-end flex-grow-1 pe-3 enlaces">
+            <Nav className="justify-content-end flex-grow-1 pe-1 enlaces">
               {isAuthenticated ? (
                 <>
                   <Link href="/" className="enlace">
