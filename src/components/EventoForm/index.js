@@ -18,7 +18,7 @@ import { postEventos } from "../../services/eventos/eventos";
 export default function EventoForm() {
   const [location, setLocation] = useLocation();
   let evento = new Object();
-  const crearEvento = (event) => {
+  const crearEvento = async (event) => {
     event.preventDefault();
 
     if (event.target[6].files[0]) {
@@ -44,7 +44,7 @@ export default function EventoForm() {
     evento.stock = parseInt(event.target[4].value);
     evento.precio = parseFloat(event.target[5].value);
 
-    postEventos(evento);
+    await postEventos(evento).then(setLocation('/'));
   };
 
   return (
@@ -97,7 +97,7 @@ export default function EventoForm() {
             <Row>
               <FormGroup as={Col} md="3">
                 <FloatingLabel
-                  label="Fecha del fin evento"
+                  label="Fecha del Inicio evento"
                   className="mb-3"
                   controlId="evento.fechaInicio"
                 >

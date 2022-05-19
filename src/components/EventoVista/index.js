@@ -11,6 +11,7 @@ import {
   Image,
   Row,
 } from "react-bootstrap";
+import { ArrowLeft } from "react-bootstrap-icons";
 import { Link } from "wouter";
 import { useLocation } from "wouter";
 import { Redirect } from "wouter";
@@ -25,12 +26,15 @@ export default function EventoVista(props) {
   const [precio, setPrecio] = useState(0);
   const [location, setLocation] = useLocation();
   useEffect(() => {
-    getEvento({ id: props.params.id }).then((data) => {
-      setEvento(data);
-      setNEntradas(1);
-      setPrecio(data.precio);
-    }).
-    catch((err)=>{setLocation("/")})
+    getEvento({ id: props.params.id })
+      .then((data) => {
+        setEvento(data);
+        setNEntradas(1);
+        setPrecio(data.precio);
+      })
+      .catch((err) => {
+        setLocation("/");
+      });
   }, []);
 
   useEffect(() => {
@@ -41,14 +45,18 @@ export default function EventoVista(props) {
     stockEntradas.push(i);
   }
 
+  const atras = ()=>{
+    setLocation("/");
+  }
+
   const datosCompra = (e) => {
     e.preventDefault();
     let datosCompra = {
-      "nombre": e.target[0].value +" "+ e.target[1].value,
-      "email": e.target[2].value,
-      "nEntradas": nEntradas,
-      "precio": precio
-    }
+      nombre: e.target[0].value + " " + e.target[1].value,
+      email: e.target[2].value,
+      nEntradas: nEntradas,
+      precio: precio,
+    };
     console.log(datosCompra);
   };
 
@@ -60,7 +68,12 @@ export default function EventoVista(props) {
             <Image src={evento.imgUrl} className="fotoEvento"></Image>
           </Col>
         </Row>
-        <Row className=" justify-content-lg-center datosCompra">
+        <Row className="justify-content-start mt-3">
+          <Col xs="1">
+            <ArrowLeft size={30} onClick={atras}></ArrowLeft>
+          </Col>
+        </Row>
+        <Row className=" justify-content-center datosCompra">
           <Col md="12" lg="4" className="mt-5">
             <Row>
               <h1>{evento.titulo}</h1>
@@ -69,8 +82,8 @@ export default function EventoVista(props) {
               <Col lg="12" className="mt-3">
                 <h3>{evento.lugar}</h3>
               </Col>
-              <Col  lg="12" className="mt-3">
-                <h5>{(evento.fecha)}</h5>
+              <Col lg="12" className="mt-3">
+                <h5>{evento.fecha}</h5>
               </Col>
             </Row>
           </Col>
@@ -149,25 +162,35 @@ export default function EventoVista(props) {
                 </FormGroup>
               </Row>
               <Row>
-                <FormGroup as={Col} lg="6" md="6" xs="6" >
+                <FormGroup as={Col} lg="6" md="6" xs="6">
                   <Form.Check
                     type="switch"
                     id="condiciones"
                     className="justify-content-start"
                   >
-                    <Form.Check.Input type="checkbox" id="condiciones" required />
-                    <Form.Check.Label>Acepto los <Link to="/terminos">Terminos y Condiciones</Link> de la Compra</Form.Check.Label>
+                    <Form.Check.Input
+                      type="checkbox"
+                      id="condiciones"
+                      required
+                    />
+                    <Form.Check.Label>
+                      Acepto los{" "}
+                      <Link to="/terminos">Terminos y Condiciones</Link> de la
+                      Compra
+                    </Form.Check.Label>
                   </Form.Check>
-
                 </FormGroup>
-                
+
                 <Col md="6" lg="6" xs="6">
                   <h3>{precio.toString()}€</h3>
                 </Col>
               </Row>
 
-              <FormGroup  className="button">
-                <Button type="submit" size="lg" > Comprar </Button>
+              <FormGroup className="button">
+                <Button type="submit" size="lg">
+                  {" "}
+                  Comprar{" "}
+                </Button>
               </FormGroup>
             </Form>
           </Col>

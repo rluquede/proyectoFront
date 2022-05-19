@@ -31,5 +31,13 @@ export default function getEvento({ id }) {
     }); */
   return fetch(`http://localhost:8000/evento/${id}`)
     .then((res) => res.json())
-    .then((response) => {return response});
+    .then((response) => {
+      return response;
+    });
+}
+
+export function deleteEvento(id) {
+  return fetch(`http://localhost:8000/evento/${id}`, {
+    method: "DELETE",
+  }).then((res) => console.log(res)).catch((err) =>{console.log(err)});
 }
