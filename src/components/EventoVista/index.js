@@ -1,4 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -9,14 +17,25 @@ import {
   FormControl,
   FormGroup,
   Image,
+  Modal,
   Row,
 } from "react-bootstrap";
 import { ArrowLeft } from "react-bootstrap-icons";
 import { Link } from "wouter";
 import { useLocation } from "wouter";
 import { Redirect } from "wouter";
-import getEvento from "../../services/eventos/eventos";
+import {
+  enviarCorreo,
+  getEntrada,
+  postEntradas,
+  updateEntrada,
+} from "../../services/entradas/entradas";
+import getEvento, { compra } from "../../services/eventos/eventos";
 import "./index.css";
+
+const stripePromise = loadStripe(
+  "pk_test_51L2c6FCd5ojOmmEHIgl2R9rYPsOGnT65jFfoigyRLrtsMxkOKwcMiPCCgfGrR2PyEbr0YCewLRFual4wa0jXwXmS00A3je7AHm"
+);
 
 export default function EventoVista(props) {
   const [evento, setEvento] = useState({});
@@ -25,6 +44,92 @@ export default function EventoVista(props) {
   const [nEntradas, setNEntradas] = useState(1);
   const [precio, setPrecio] = useState(0);
   const [location, setLocation] = useLocation();
+  const [show, setShow] = useState(false);
+
+  const CheckoutForm = () => {
+    const stripe = useStripe();
+    const elements = useElements();
+
+    const comprar = async (e) => {
+      e.preventDefault();
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardElement),
+      });
+      if (!error) {
+        const { id } = paymentMethod;
+        try {
+          const { data } = await axios.post(
+            "http://localhost:8080/api/checkout",
+            {
+              id: id,
+              amount: Math.trunc(precio) * 100,
+            }
+          );
+          if (data.status == 200) {
+            if (isAuthenticated) {
+              let userId = user.sub.split("|");
+
+              const entrada = await getEntrada(userId[1], props.params.id);
+              if (entrada) {
+                let nuevoNumero =
+                  parseInt(entrada[0].numeroEntradas) + parseInt(nEntradas);
+                updateEntrada(userId[1], props.params.id, nuevoNumero);
+              } else {
+                postEntradas(
+                  userId[1],
+                  props.params.id,
+                  parseInt(nEntradas),
+                  user.email
+                );
+              }
+            }
+            let entradaEmail = {
+              id: isAuthenticated
+                ? user.sub.split("|")
+                : Math.floor(Math.random() * (999999999 - 100000) + 100000) +
+                  "-" +
+                  props.params.id +
+                  "-" +
+                  nEntradas,
+              titulo: evento.titulo,
+              lugar: evento.lugar,
+              fechaInicio: evento.fechaInicio,
+              fechaFin: evento.fechaFin ? evento.fechaFin : null,
+              numero: nEntradas,
+              email: document.getElementById("emailInput").value,
+            };
+            enviarCorreo(entradaEmail)
+              .then((res) => {
+                let nuevoStock = evento.stock - nEntradas;
+                compra(props.params.id,nuevoStock).then((res)=>{
+                  setShow(false);
+                }).catch((err)=>{
+                  console.log(err);
+                })
+                
+              })
+              .catch((err) => {
+                console.log("fallo email");
+                setShow(false);
+              });
+          }
+        } catch (error) {
+          console.log("estoy");
+        }
+      }
+    };
+
+    return (
+      <form onSubmit={comprar}>
+        <CardElement options={{ hidePostalCode: true }} />
+        <Button onClick={comprar} className="mt-4">
+          Comprar
+        </Button>
+      </form>
+    );
+  };
+
   useEffect(() => {
     getEvento({ id: props.params.id })
       .then((data) => {
@@ -45,9 +150,9 @@ export default function EventoVista(props) {
     stockEntradas.push(i);
   }
 
-  const atras = ()=>{
+  const atras = () => {
     setLocation("/");
-  }
+  };
 
   const datosCompra = (e) => {
     e.preventDefault();
@@ -57,7 +162,8 @@ export default function EventoVista(props) {
       nEntradas: nEntradas,
       precio: precio,
     };
-    console.log(datosCompra);
+    //console.log(datosCompra);
+    setShow(true);
   };
 
   return (
@@ -83,55 +189,25 @@ export default function EventoVista(props) {
                 <h3>{evento.lugar}</h3>
               </Col>
               <Col lg="12" className="mt-3">
-                <h5>{evento.fecha}</h5>
+                <h5>
+                  {evento.fechaInicio}
+                  {evento.fechaFin ? " / " + evento.fechaFin : ""}{" "}
+                </h5>
               </Col>
             </Row>
           </Col>
           <Col md="12" lg="6" className="mt-5">
             <Form onSubmit={datosCompra}>
               <Row>
-                <FormGroup as={Col} md="5" xs="12">
-                  <FloatingLabel
-                    label="Nombre"
-                    className="mb-3"
-                    controlId="entrada.nombre"
-                  >
-                    <FormControl
-                      type="text"
-                      placeholder="Nombre"
-                      name="email"
-                      required
-                    ></FormControl>
-                  </FloatingLabel>
-                </FormGroup>
-                <FormGroup as={Col} md="7" xs="12">
-                  <FloatingLabel
-                    label="Apellidos"
-                    className="mb-3"
-                    controlId="entrada.apellidos"
-                  >
-                    <FormControl
-                      type="text"
-                      placeholder="Apellidos"
-                      name="email"
-                      required
-                    ></FormControl>
-                  </FloatingLabel>
-                </FormGroup>
-              </Row>
-              <Row>
                 <FormGroup>
-                  <FloatingLabel
-                    label="Email"
-                    className="mb-3"
-                    controlId="entrada.email"
-                  >
+                  <FloatingLabel label="Email" className="mb-3">
                     <FormControl
-                      type="text"
+                      type="email"
                       placeholder="Email"
                       name="email"
                       size="lg"
-                      defaultValue={isAuthenticated ? user.name : ""}
+                      id="emailInput"
+                      defaultValue={isAuthenticated ? user.email : ""}
                       required
                     ></FormControl>
                   </FloatingLabel>
@@ -152,7 +228,7 @@ export default function EventoVista(props) {
                     >
                       {stockEntradas.map((index) => {
                         return (
-                          <option key={index} value={index}>
+                          <option key={index} value={index} className="select">
                             {index}
                           </option>
                         );
@@ -174,8 +250,8 @@ export default function EventoVista(props) {
                       required
                     />
                     <Form.Check.Label>
-                      Acepto los{" "}
-                      <Link to="/terminos">Terminos y Condiciones</Link> de la
+                      Acepto los 
+                      <Link to="/terminos" className="terminos"> Terminos y Condiciones </Link> de la
                       Compra
                     </Form.Check.Label>
                   </Form.Check>
@@ -185,17 +261,31 @@ export default function EventoVista(props) {
                   <h3>{precio.toString()}€</h3>
                 </Col>
               </Row>
-
               <FormGroup className="button">
                 <Button type="submit" size="lg">
-                  {" "}
-                  Comprar{" "}
+                  Comprar
                 </Button>
               </FormGroup>
             </Form>
           </Col>
         </Row>
       </Container>
+
+      <Modal
+        show={show}
+        onHide={() => {
+          setShow(false);
+        }}
+      >
+        <Modal.Header>
+          <Modal.Title>Introduce los datos de tu tarjeta</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Elements stripe={stripePromise}>
+            <CheckoutForm />
+          </Elements>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

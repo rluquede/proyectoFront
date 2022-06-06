@@ -39,7 +39,7 @@ export default function Header() {
             <Nav className="justify-content-end flex-grow-1 pe-1 enlaces">
               {isAuthenticated ? (
                 <>
-                  <Link href="/" className="enlace">
+                  <Link href="/misEntradas" className="enlace">
                     Mis entradas
                   </Link>
                   {user.nickname === "admin" ? (

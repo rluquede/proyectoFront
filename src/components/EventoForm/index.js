@@ -1,5 +1,5 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -13,11 +13,23 @@ import {
 } from "react-bootstrap";
 import { useLocation } from "wouter";
 import storage from "../../firebase/firebaseConfig";
-import { postEventos } from "../../services/eventos/eventos";
+import getEvento, { postEventos, updateEvento } from "../../services/eventos/eventos";
 
-export default function EventoForm() {
+export default function EventoForm(props) {
   const [location, setLocation] = useLocation();
   let evento = new Object();
+  const [eventoActualizar, setEventoActualizar] = useState({});
+  const [actualizar, setActualizar] = useState(false);
+  useEffect(() => {
+    if (props.params.id) {
+      getEvento({ id: props.params.id }).then((data) => {
+        setEventoActualizar(data);
+        setActualizar(true);
+      });
+    }
+  }, []);
+
+  //Funcion para crear evento
   const crearEvento = async (event) => {
     event.preventDefault();
 
@@ -26,37 +38,68 @@ export default function EventoForm() {
       let storageRef = ref(storage, "eventos/" + file.name);
       uploadBytes(storageRef, file).then((snapshot) => {
         getDownloadURL(ref(storage, "eventos/" + file.name)).then((url) => {
-          console.log(url)
+          console.log(url);
           evento.imgUrl = url;
         });
       });
-    }else{
-        evento.imgUrl = "https://firebasestorage.googleapis.com/v0/b/onair-a77ac.appspot.com/o/eventos%2Fdefault.webp?alt=media&token=cb7ecb8f-13a5-4d85-bdcf-69326b56ebf0"
+    } else {
+      evento.imgUrl =
+        "https://firebasestorage.googleapis.com/v0/b/onair-a77ac.appspot.com/o/eventos%2Fdefault.webp?alt=media&token=cb7ecb8f-13a5-4d85-bdcf-69326b56ebf0";
     }
 
     evento.titulo = event.target[0].value;
     evento.lugar = event.target[1].value;
-    if(event.target[3].value && event.target[3].value != event.target[2].value ){
-      evento.fecha = event.target[2].value + "/" + event.target[3].value;
-    }else{
-      evento.fecha = event.target[2].value
-    }
+    evento.fechaInicio = event.target[2].value;
+    evento.fechaFin = event.target[3].value;
     evento.stock = parseInt(event.target[4].value);
     evento.precio = parseFloat(event.target[5].value);
 
-    await postEventos(evento).then(setLocation('/'));
+    await postEventos(evento);
+  };
+
+  const actualizarEvento = async (event) => {
+    event.preventDefault();
+
+    if (event.target[6].files[0]) {
+      let file = event.target[6].files[0];
+      let storageRef = ref(storage, "eventos/" + file.name);
+      uploadBytes(storageRef, file).then((snapshot) => {
+        getDownloadURL(ref(storage, "eventos/" + file.name)).then((url) => {
+          console.log(url);
+          evento.imgUrl = url;
+        });
+      });
+    } else {
+      evento.imgUrl = eventoActualizar.imgUrl;
+       
+    }
+
+    evento.titulo = event.target[0].value;
+    evento.lugar = event.target[1].value;
+    evento.fechaInicio = event.target[2].value;
+    evento.fechaFin = event.target[3].value;
+    evento.stock = parseInt(event.target[4].value);
+    evento.precio = parseFloat(event.target[5].value);
+    console.log(evento);
+     updateEvento(props.params.id,evento).then((res)=>{
+      console.log(res);
+    }) 
   };
 
   return (
     <Container>
       <Row className="mt-5">
         <Col>
-          <h3>Crea un nuevo evento</h3>
+          {actualizar ? (
+            <h3>Actualiza el evento</h3>
+          ) : (
+            <h3>Crea un nuevo evento</h3>
+          )}
         </Col>
       </Row>
       <Row className="mt-4">
         <Col>
-          <Form onSubmit={crearEvento}>
+          <Form onSubmit={actualizar ? actualizarEvento : crearEvento}>
             <Row>
               <FormGroup as={Col} md="7">
                 <FloatingLabel
@@ -68,6 +111,7 @@ export default function EventoForm() {
                     type="text"
                     placeholder="Nombre del evento"
                     name="titulo"
+                    defaultValue={actualizar ? eventoActualizar.titulo : ""}
                     required
                   />
                 </FloatingLabel>
@@ -86,6 +130,7 @@ export default function EventoForm() {
                     type="text"
                     placeholder="Lugar del evento"
                     name="lugar"
+                    defaultValue={actualizar ? eventoActualizar.lugar : ""}
                     required
                   />
                 </FloatingLabel>
@@ -105,6 +150,9 @@ export default function EventoForm() {
                     type="date"
                     placeholder="Fecha de inicio del evento"
                     name="fechaInicio"
+                    defaultValue={
+                      actualizar ? eventoActualizar.fechaInicio : ""
+                    }
                     required
                   />
                 </FloatingLabel>
@@ -122,6 +170,7 @@ export default function EventoForm() {
                     type="date"
                     placeholder="Fecha de fin del evento"
                     name="fechaFin"
+                    defaultValue={actualizar ? eventoActualizar.fechaFin : ""}
                   />
                 </FloatingLabel>
               </FormGroup>
@@ -135,6 +184,7 @@ export default function EventoForm() {
                     type="text"
                     placeholder="Nº de entradas"
                     name="stock"
+                    defaultValue={actualizar ? eventoActualizar.stock : ""}
                     required
                   />
                 </FloatingLabel>
@@ -152,6 +202,7 @@ export default function EventoForm() {
                     type="text"
                     placeholder="precio de entradas"
                     name="precio"
+                    defaultValue={actualizar ? eventoActualizar.precio : ""}
                     required
                   />
                 </FloatingLabel>
@@ -164,7 +215,7 @@ export default function EventoForm() {
               <FormLabel className="mb-3 justify-content-start">
                 Imagen del Concierto
               </FormLabel>
-              <FormGroup as={Col} controlId="evento.stock" md="12">
+              <FormGroup as={Col} controlId="evento.imgUrl" md="12">
                 <FormControl
                   type="file"
                   placeholder="Imagen del concierto"
@@ -174,9 +225,15 @@ export default function EventoForm() {
             </Row>
             <Row className="mt-5">
               <Col>
-                <Button variant="primary" type="submit" size="lg">
-                  Enviar
-                </Button>
+                {actualizar ? (
+                  <Button variant="primary" type="submit" size="lg">
+                    Actualizar
+                  </Button>
+                ) : (
+                  <Button variant="primary" type="submit" size="lg">
+                    Enviar
+                  </Button>
+                )}
               </Col>
             </Row>
           </Form>
