@@ -6,7 +6,6 @@ import "./index.css";
 
 export default function ListaEventos() {
   const [eventos, setEventos] = useState([]);
-  const [eventosOferta, setEventosOferta] = useState([])
   useEffect(() => {
     getEventos.then((res) => {
       const eventos = res.map((evento) => evento);
