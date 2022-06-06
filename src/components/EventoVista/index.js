@@ -23,7 +23,6 @@ import {
 import { ArrowLeft } from "react-bootstrap-icons";
 import { Link } from "wouter";
 import { useLocation } from "wouter";
-import { Redirect } from "wouter";
 import {
   enviarCorreo,
   getEntrada,

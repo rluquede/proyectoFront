@@ -41,13 +41,14 @@ export default function ListaEntradas() {
   
   return (
     <>
+    <Container fluid>
     <Row className="justify-content-start mt-3">
           <Col xs="1">
             <ArrowLeft size={30} onClick={atras}></ArrowLeft>
           </Col>
         </Row>
       <h3>Mis Entradas</h3>
-      <Container fluid>
+      
         <Row className="mt-4">
           {eventos.map((evento) => (
             <Col md="12" lg="3" key={evento.id}>
