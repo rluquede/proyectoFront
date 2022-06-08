@@ -87,7 +87,7 @@ export default function EventoVista(props) {
                   userId[1],
                   props.params.id,
                   parseInt(nEntradas),
-                  user.email
+                  document.getElementById("emailInput").value
                 );
               }
             }
