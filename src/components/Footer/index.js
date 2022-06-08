@@ -20,13 +20,13 @@ export default function Footer(){
                </Col>
             </Row>
             <Row className="icons justify-content-center">
-                <Col xs={1}>
+                <Col xs={2}>
                 <a href="https://www.instagram.com" target="_blank" rel="noreferrer"><Instagram size={40} className="iconFooter"/></a>
                 </Col>
-                <Col xs={1}>
+                <Col xs={2}>
                 <a href="https://es-es.facebook.com" target="_blank" rel="noreferrer"><Facebook size={40} className="iconFooter"/></a>
                 </Col>
-                <Col xs={1}>
+                <Col xs={2}>
                 <a href="https://twitter.com/?lang=es" target="_blank" rel="noreferrer"><Twitter size={40} className="iconFooter"/></a>
                 </Col>
             </Row>

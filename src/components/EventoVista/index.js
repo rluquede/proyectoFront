@@ -301,10 +301,10 @@ export default function EventoVista(props) {
         </Row>
         
         
-      </Container>
           <Alert show={showAlert} variant={alertMsg.type} className="mt-3">
             {alertMsg.msg}
           </Alert>
+      </Container>
 
       <Modal
         show={show}
