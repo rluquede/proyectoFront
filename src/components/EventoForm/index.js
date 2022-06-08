@@ -79,7 +79,7 @@ export default function EventoForm(props) {
     postEventos(nuevoEvento).then((res) => {
       console.log(res);
       if (res.code == "ERR_BAD_REQUEST") {
-        setAlertMsg({ msg: "Error al actualizar el evento", type: "danger" });
+        setAlertMsg({ msg: "Error al crear el evento", type: "danger" });
         setLoading(false);
         setShowAlert(true);
         setTimeout(() => {
@@ -87,7 +87,7 @@ export default function EventoForm(props) {
         }, 5000);
       } else {
         setAlertMsg({
-          msg: "Evento actualizado correctamente",
+          msg: "Evento creado correctamente",
           type: "success",
         });
         setLoading(false);
