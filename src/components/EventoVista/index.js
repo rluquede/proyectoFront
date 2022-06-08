@@ -66,7 +66,7 @@ export default function EventoVista(props) {
         const { id } = paymentMethod;
         try {
           const { data } = await axios.post(
-            "http://localhost:8080/api/checkout",
+            "https://apionair.herokuapp.com/api/checkout",
             {
               id: id,
               amount: Math.trunc(precio) * 100,
