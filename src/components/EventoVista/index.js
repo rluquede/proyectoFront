@@ -93,7 +93,7 @@ export default function EventoVista(props) {
             }
             let entradaEmail = {
               id: isAuthenticated
-                ? user.sub.split("|")
+                ? user.sub.split("|")[1]
                 : Math.floor(Math.random() * (999999999 - 100000) + 100000) +
                   props.params.id +
                   nEntradas,
