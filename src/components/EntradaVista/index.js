@@ -159,11 +159,11 @@ export default function EntradaVista(props) {
             </Form>
           </Col>
         </Row>
-        <Row >
-        <Alert show={showAlert} variant={alertMsg.type}>
+        
+        <Alert show={showAlert} variant={alertMsg.type} className="mt-3">
           {alertMsg.msg}
         </Alert>
-      </Row>
+      
       </Container>
       <Modal
         show={show}

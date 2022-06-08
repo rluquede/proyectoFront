@@ -299,11 +299,11 @@ export default function EventoVista(props) {
             </Form>
           </Col>
         </Row>
-        <Row className="mt-3">
-          <Alert show={showAlert} variant={alertMsg.type}>
+        
+          <Alert show={showAlert} variant={alertMsg.type} className="mt-3">
             {alertMsg.msg}
           </Alert>
-        </Row>
+        
       </Container>
 
       <Modal
