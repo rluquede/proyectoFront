@@ -9,6 +9,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Button,
   Col,
   Container,
@@ -19,6 +20,7 @@ import {
   Image,
   Modal,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import { ArrowLeft } from "react-bootstrap-icons";
 import { Link } from "wouter";
@@ -44,6 +46,9 @@ export default function EventoVista(props) {
   const [precio, setPrecio] = useState(0);
   const [location, setLocation] = useLocation();
   const [show, setShow] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({});
+  const [loading, setLoading] = useState(false)
 
   const CheckoutForm = () => {
     const stripe = useStripe();
@@ -55,7 +60,9 @@ export default function EventoVista(props) {
         type: "card",
         card: elements.getElement(CardElement),
       });
+      setLoading(true);
       if (!error) {
+        
         const { id } = paymentMethod;
         try {
           const { data } = await axios.post(
@@ -71,8 +78,9 @@ export default function EventoVista(props) {
 
               const entrada = await getEntrada(userId[1], props.params.id);
               if (entrada) {
+                console.log(entrada);
                 let nuevoNumero =
-                  parseInt(entrada[0].numeroEntradas) + parseInt(nEntradas);
+                  parseInt(entrada.numeroEntradas) + parseInt(nEntradas);
                 updateEntrada(userId[1], props.params.id, nuevoNumero);
               } else {
                 postEntradas(
@@ -87,9 +95,7 @@ export default function EventoVista(props) {
               id: isAuthenticated
                 ? user.sub.split("|")
                 : Math.floor(Math.random() * (999999999 - 100000) + 100000) +
-                  "-" +
                   props.params.id +
-                  "-" +
                   nEntradas,
               titulo: evento.titulo,
               lugar: evento.lugar,
@@ -101,12 +107,23 @@ export default function EventoVista(props) {
             enviarCorreo(entradaEmail)
               .then((res) => {
                 let nuevoStock = evento.stock - nEntradas;
-                compra(props.params.id,nuevoStock).then((res)=>{
-                  setShow(false);
-                }).catch((err)=>{
-                  console.log(err);
-                })
-                
+                compra(props.params.id, nuevoStock)
+                  .then((res) => {
+                    setAlertMsg({
+                      msg: "Entrada comprada correctamente, mira en tu correo",
+                      type: "success",
+                    });
+                    setLoading(false)
+                    setShow(false);
+                    setShowAlert(true);
+                    setTimeout(() => {
+                      setShowAlert(false);
+                      setLocation("/");
+                    }, 5000);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
               })
               .catch((err) => {
                 console.log("fallo email");
@@ -114,7 +131,17 @@ export default function EventoVista(props) {
               });
           }
         } catch (error) {
-          console.log("estoy");
+          setAlertMsg({
+            msg: "Ha ocurrido un error, intentelo de nuevo",
+            type: "danger",
+          });
+          setLoading(false)
+          setShow(false);
+          setShowAlert(true);
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 5000);
+          
         }
       }
     };
@@ -122,7 +149,8 @@ export default function EventoVista(props) {
     return (
       <form onSubmit={comprar}>
         <CardElement options={{ hidePostalCode: true }} />
-        <Button onClick={comprar} className="mt-4">
+        <Button onClick={comprar} className="mt-4" variant="danger">
+        {loading?(<Spinner animation="border" variant="light" size="sm" />):""}
           Comprar
         </Button>
       </form>
@@ -178,9 +206,9 @@ export default function EventoVista(props) {
             <ArrowLeft size={30} onClick={atras}></ArrowLeft>
           </Col>
         </Row>
-        <Row className=" justify-content-center datosCompra">
+        <Row className="justify-content-center datosCompra">
           <Col md="12" lg="4" className="mt-5">
-            <Row>
+            <Row className="justify-content-center">
               <h1>{evento.titulo}</h1>
             </Row>
             <Row>
@@ -249,9 +277,12 @@ export default function EventoVista(props) {
                       required
                     />
                     <Form.Check.Label>
-                      Acepto los 
-                      <Link to="/terminos" className="terminos"> Terminos y Condiciones </Link> de la
-                      Compra
+                      Acepto los
+                      <Link to="/terminos" className="terminosEnlace">
+                        {" "}
+                        Terminos y Condiciones{" "}
+                      </Link>{" "}
+                      de la Compra
                     </Form.Check.Label>
                   </Form.Check>
                 </FormGroup>
@@ -261,12 +292,17 @@ export default function EventoVista(props) {
                 </Col>
               </Row>
               <FormGroup className="button">
-                <Button type="submit" size="lg">
+                <Button type="submit" size="lg" variant="danger">
                   Comprar
                 </Button>
               </FormGroup>
             </Form>
           </Col>
+        </Row>
+        <Row className="mt-3">
+          <Alert show={showAlert} variant={alertMsg.type}>
+            {alertMsg.msg}
+          </Alert>
         </Row>
       </Container>
 
@@ -274,6 +310,7 @@ export default function EventoVista(props) {
         show={show}
         onHide={() => {
           setShow(false);
+          setLoading(false);
         }}
       >
         <Modal.Header>

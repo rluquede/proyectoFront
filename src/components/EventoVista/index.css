@@ -24,6 +24,10 @@
     margin-top: 3em;
 }
 
-.terminos{
+.terminosEnlace{
     text-decoration: none;
+    color: #FF0900;
+}
+#condiciones{
+    background-color: #FF0900;
 }

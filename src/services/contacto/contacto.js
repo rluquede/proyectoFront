@@ -1,5 +1,5 @@
 export function enviarCorreoContacto(mensaje) {
-    return fetch("http://localhost:8080/email/contacto", {
+    return fetch("https://apionair.herokuapp.com/email/contacto", {
       headers:{
         'Content-Type': 'application/json'
       },

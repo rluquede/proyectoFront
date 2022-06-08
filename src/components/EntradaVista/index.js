@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, FloatingLabel, Form, FormControl, FormGroup, Image, Modal, Row } from "react-bootstrap";
+import { Alert, Button, Col, Container, FloatingLabel, Form, FormControl, FormGroup, Image, Modal, Row, Spinner } from "react-bootstrap";
 import { ArrowLeft } from "react-bootstrap-icons";
 import { useLocation } from "wouter";
 import { deleteEntrada, enviarCorreo, getEntrada } from "../../services/entradas/entradas";
@@ -14,13 +14,21 @@ export default function EntradaVista(props) {
   const [cargado,setCargado] = useState(false);
   const [location, setLocation] = useLocation();
   const [show,setShow] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({});
+  const [loading, setLoading] = useState(false);
 
+  if(!isAuthenticated){
+    setLocation("/errorUnauthorized");
+  }
 
   useEffect(() => {
     if(isAuthenticated){
         let userId = user.sub.split("|");
         getEntrada(userId[1], props.params.id).then((res) => {
           setEntrada(res);
+        }).catch((err)=>{
+          setLocation("/errorNotFound")
         });
     }
 
@@ -29,11 +37,14 @@ export default function EntradaVista(props) {
   useEffect(() => {
     getEvento({ id: props.params.id }).then((data) => {
       setEvento(data);
+    }).catch((err)=>{
+      setLocation("/errorNotFound")
     });
   }, []);
  
 
   const enviarEntradas = () => {
+    setLoading(true);
     let entradaEmail = {
         id: user.sub.split("|")[1]+evento.id+entrada.numeroEntradas,
         titulo: evento.titulo,
@@ -46,10 +57,26 @@ export default function EntradaVista(props) {
 
       enviarCorreo(entradaEmail)
               .then((res) => {
-                console.log("correo enviado")
+                setAlertMsg({
+                  msg: "Entrada enviada correctamente, mira en tu correo",
+                  type: "success",
+                });
+                setLoading(false);
+                setShowAlert(true);
+                setTimeout(() => {
+                  setShowAlert(false);
+                }, 5000);
             })
               .catch((err) => {
-                console.log("fallo email");
+                setAlertMsg({
+                  msg: "Fallo al enviar tu correo, intentelo de nuevo",
+                  type: "success",
+                });
+                setLoading(false);
+                setShowAlert(true);
+                setTimeout(() => {
+                  setShowAlert(false);
+                }, 5000);
               });
   }
 
@@ -58,10 +85,12 @@ export default function EntradaVista(props) {
   };
 
   const devolverEntrada = () => {
+    setLoading(true)
     let nuevoStock = evento.stock + entrada.numeroEntradas;
     let userId = user.sub.split("|");
     compra(props.params.id,nuevoStock).then((res)=>{
       deleteEntrada(userId[1],evento.id).then((res)=>{
+        setLoading(false);
         setLocation("/misEntradas");
       })
     })
@@ -124,12 +153,17 @@ export default function EntradaVista(props) {
                   </Col>
                   <Col md="7">
                   <Button variant="link devolver" onClick={(e)=>setShow(true)}>Devolver entradas</Button>
-                  <Button className="ms-2" onClick={enviarEntradas}>Descargar Entradas</Button>
+                  <Button className="ms-2" onClick={enviarEntradas} variant="danger"> {loading?(<Spinner animation="border" variant="light" size="sm" />):""} Descargar Entradas</Button>
                   </Col>
               </Row>
             </Form>
           </Col>
         </Row>
+        <Row >
+        <Alert show={showAlert} variant={alertMsg.type}>
+          {alertMsg.msg}
+        </Alert>
+      </Row>
       </Container>
       <Modal
         show={show}
@@ -148,10 +182,12 @@ export default function EntradaVista(props) {
             onClick={() => {
               setShow(false);
             }}
+            variant="link enlaceBorrar"
+            
           >
             Cancelar
           </Button>
-          <Button onClick={devolverEntrada}>Devolver</Button>
+          <Button onClick={devolverEntrada} variant="danger"> {loading?(<Spinner animation="border" variant="light" size="sm" />):""} Devolver</Button>
         </Modal.Footer>
       </Modal>
     </>

@@ -24,6 +24,9 @@ export default function Terminos() {
         </Row>
 
         <div className="terminos">
+          <h1>
+            Proyecto de fin de ciclo superior
+          </h1>
           <p>
             Vendemos entradas y productos y/o servicios asociados en nombre de
             promotores, productores, equipos, artistas y recintos o locales.

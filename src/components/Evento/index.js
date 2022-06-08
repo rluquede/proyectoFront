@@ -52,10 +52,10 @@ export default function Evento(params) {
           </Card.Text>
           {isAuthenticated && user.nickname == "admin" ? (
             <>
-              <Button className="me-3" onClick={actualizar}>
+              <Button className="me-3" onClick={actualizar} variant="danger">
                 Editar
               </Button>
-              <Button className="me-3" onClick={modalBorrar}>
+              <Button className="me-3" onClick={modalBorrar} variant="danger">
                 Borrar
               </Button>
             </>
@@ -63,11 +63,11 @@ export default function Evento(params) {
             ""
           )}
           {params.evento.stock > 0 ? (
-            <Button onClick={vista} size="lg">
+            <Button onClick={vista} size="lg" variant="danger">
               Comprar
-            </Button>
+            </Button >
           ) : (
-            <Button size="lg" disabled>
+            <Button size="lg" disabled variant="danger">
               Agotado
             </Button>
           )}
@@ -91,10 +91,11 @@ export default function Evento(params) {
             onClick={() => {
               setShow(false);
             }}
+            variant="link enlaceBorrar"
           >
             Cancelar
           </Button>
-          <Button onClick={borrar}>Borrar</Button>
+          <Button onClick={borrar} variant="danger">Borrar</Button>
         </Modal.Footer>
       </Modal>
     </>

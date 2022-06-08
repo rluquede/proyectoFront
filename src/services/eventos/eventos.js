@@ -4,26 +4,26 @@ export let eventos = null;
 
 export async function postEventos(evento) {
   return axios
-    .post("http://localhost:8080/eventos", {
+    .post("https://apionair.herokuapp.com/eventos", {
       evento: evento,
       header: {
         "Content-type": "application/json",
       },
     })
     .then((response) => {
-      console.log(response);
+      return response
     })
     .catch((err) => {
-      console.log(err);
+      return err
     });
 }
 
-export const getEventos = fetch("http://localhost:8080/eventos")
+export const getEventos = fetch("https://apionair.herokuapp.com/eventos")
   .then((res) => res.json())
   .then((data) => data);
 
 export default function getEvento({ id }) {
-  return fetch(`http://localhost:8080/eventos/${id}`)
+  return fetch(`https://apionair.herokuapp.com/eventos/${id}`)
     .then((res) => res.json())
     .then((response) => {
       return response;
@@ -31,7 +31,7 @@ export default function getEvento({ id }) {
 }
 
 export function deleteEvento(id) {
-  return fetch(`http://localhost:8080/eventos/${id}`, {
+  return fetch(`https://apionair.herokuapp.com/eventos/${id}`, {
     method: "DELETE",
   })
     .then((res) => console.log(res))
@@ -41,7 +41,7 @@ export function deleteEvento(id) {
 }
 
 export function updateEvento(id, evento) {
-  return fetch(`http://localhost:8080/eventos/${id}`, {
+  return fetch(`https://apionair.herokuapp.com/eventos/${id}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -59,7 +59,7 @@ export function updateEvento(id, evento) {
 
 export function compra(id, numeroEntradas) {
   return fetch(
-    `http://localhost:8080/eventos/compra/${id}?numeroEntradas=${numeroEntradas}`,{
+    `https://apionair.herokuapp.com/eventos/compra/${id}?numeroEntradas=${numeroEntradas}`,{
       method:"PUT"
     }
   )

@@ -29,7 +29,7 @@ export default function Entrada(params) {
               </Row>
             </Container>
           </Card.Text>
-          <Button onClick={vista} size="lg">
+          <Button onClick={vista} size="lg" variant="danger">
             Ver Entrada
           </Button>
         </Card.Body>

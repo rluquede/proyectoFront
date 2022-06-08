@@ -9,6 +9,8 @@ import EntradaVista from "./components/EntradaVista";
 import Terminos from "./pages/Terminos";
 import Contacto from "./pages/Contacto";
 import Footer from "./components/Footer";
+import ErrorUnauthorized from "./pages/ErrorUnauthorized";
+import ErrorNotFound from "./pages/ErrorNotFound";
 function App() {
   return (
     <div className="App">
@@ -21,6 +23,8 @@ function App() {
       <Route component={EventoForm} path="/actualizarEvento/:id"/>
       <Route component={Terminos} path="/terminos"/>
       <Route component={Contacto} path="/contacto"/>
+      <Route component={ErrorNotFound} path="/errorNotFound"/>
+      <Route component={ErrorUnauthorized} path="/errorUnauthorized"/>
       <Footer></Footer>
     </div>
   );

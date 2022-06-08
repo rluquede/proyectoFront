@@ -1,5 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { useState } from "react";
 import {
+  Alert,
   Button,
   Col,
   Container,
@@ -8,23 +10,48 @@ import {
   FormControl,
   FormGroup,
   Row,
+  Spinner,
 } from "react-bootstrap";
-import {  enviarCorreoContacto } from "../../services/contacto/contacto";
+import { enviarCorreoContacto } from "../../services/contacto/contacto";
 import "./index.css";
 
 export default function Contacto() {
   const { user, isAuthenticated } = useAuth0();
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const enviarContactoForm =  (evento) => {
-    evento.preventDefault()
+  const enviarContactoForm = (evento) => {
+    evento.preventDefault();
+    setLoading(true);
     let mensaje = {
       nombre: evento.target[0].value + " " + evento.target[1].value,
       email: evento.target[2].value,
-      pregunta: evento.target[3].value
+      pregunta: evento.target[3].value,
     };
 
-    enviarCorreoContacto(mensaje).then((res) => {console.log(res)});
-    
+    enviarCorreoContacto(mensaje).then((res) => {
+      console.log(res);
+      setAlertMsg({
+        msg: "Correo enviado, miraremos tu cuestión",
+        type: "success",
+      });
+      setLoading(false);
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+    }).catch((err)=>{
+      setAlertMsg({
+        msg: "No se ha podido enviar la pregunta. vuelva a intentarlo",
+        type: "danger",
+      });
+      setLoading(false);
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+    });
   };
 
   return (
@@ -104,13 +131,19 @@ export default function Contacto() {
             </Row>
             <Row className="mt-5">
               <Col>
-                <Button variant="primary" type="submit" size="lg">
+                <Button variant="danger" type="submit" size="lg">
+                {loading?(<Spinner animation="border" variant="light" size="sm" />):""}
                   Enviar
                 </Button>
               </Col>
             </Row>
           </Form>
         </Col>
+      </Row>
+      <Row className="mt-3">
+        <Alert show={showAlert} variant={alertMsg.type}>
+          {alertMsg.msg}
+        </Alert>
       </Row>
     </Container>
   );

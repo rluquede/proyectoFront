@@ -1,3 +1,5 @@
 .devolver{
-    text-decoration: none;
+    text-decoration: none !important;
+    color: #FF0900 !important;
+    font-size: large !important;
 }

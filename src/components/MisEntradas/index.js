@@ -18,37 +18,45 @@ export default function ListaEntradas() {
     setLocation("/");
   };
 
+  if(!isAuthenticated){
+    setLocation("/errorUnauthorized");
+  }
+
   useEffect(() => {
     if (isAuthenticated) {
       let userId = user.sub.split("|");
       getEntradasByUser({ userId: userId[1] }).then((res) => {
         setEntradas(res);
-      });
+      }).catch((err)=>{
+        setLocation("/errorNotFound")
+      })
     }
   }, [isAuthenticated]);
 
-  useEffect(()=>{
-      if(entradas.length > 0){
-        entradas.map(entrada=>{
-            getEvento({id: entrada.eventoId}).then((res)=>{
-                setEventos((prev)=>{return[...prev,res]})
-            })
+  useEffect(() => {
+    if (entradas.length > 0) {
+      entradas.map((entrada) => {
+        getEvento({ id: entrada.eventoId }).then((res) => {
+          setEventos((prev) => {
+            return [...prev, res];
+          });
+        }).catch((err)=>{
+          setLocation("/errorNotFound")
         })
-      }
-      
-  },[entradas])
+      });
+    }
+  }, [entradas]);
 
-  
   return (
     <>
-    <Container fluid>
-    <Row className="justify-content-start mt-3">
+      <Container fluid>
+        <Row className="justify-content-start mt-3">
           <Col xs="1">
             <ArrowLeft size={30} onClick={atras}></ArrowLeft>
           </Col>
         </Row>
-      <h3>Mis Entradas</h3>
-      
+        <h3>Mis Entradas</h3>
+
         <Row className="mt-4">
           {eventos.map((evento) => (
             <Col md="12" lg="3" key={evento.id}>

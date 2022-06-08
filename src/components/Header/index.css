@@ -16,6 +16,9 @@
 .boton{
     background-color: white !important;
 }
+.enlace:hover{
+    color: #FF0900 !important;
+}
 
 .logo{
     width: 70px;

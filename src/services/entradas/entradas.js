@@ -9,7 +9,7 @@ export async function postEntradas(userId, eventoId, numeroEntradas, email) {
   entrada.numeroEntradas = numeroEntradas;
   entrada.email = email;
   return axios
-    .post("http://localhost:8080/entradas", {
+    .post("https://apionair.herokuapp.com/entradas", {
       entrada: entrada,
       header: {
         "Content-type": "application/json",
@@ -24,7 +24,7 @@ export async function postEntradas(userId, eventoId, numeroEntradas, email) {
 }
 
 export default function getEntradasByUser({ userId }) {
-  return fetch(`http://localhost:8080/entradas/${userId}`)
+  return fetch(`https://apionair.herokuapp.com/entradas/${userId}`)
     .then((res) => res.json())
     .then((response) => {
       return response;
@@ -32,7 +32,7 @@ export default function getEntradasByUser({ userId }) {
 }
 
 export function deleteEntrada(userId, eventoId) {
-  return fetch(`http://localhost:8080/entradas/${eventoId}?userId=${userId}`, {
+  return fetch(`https://apionair.herokuapp.com/entradas/${eventoId}?userId=${userId}`, {
     method: "DELETE",
   })
     .then((res) => console.log(res))
@@ -43,7 +43,7 @@ export function deleteEntrada(userId, eventoId) {
 
 export function updateEntrada(userId, eventoId, numeroEntradas) {
   return fetch(
-    `http://localhost:8080/entradas/?userId=${userId}&eventoId=${eventoId}&numeroEntradas=${numeroEntradas}`,
+    `https://apionair.herokuapp.com/entradas/?userId=${userId}&eventoId=${eventoId}&numeroEntradas=${numeroEntradas}`,
     {
       method: "PUT",
     }
@@ -52,7 +52,7 @@ export function updateEntrada(userId, eventoId, numeroEntradas) {
 
 export function getEntrada(userId, eventoId) {
   return fetch(
-    `http://localhost:8080/entradas/?userId=${userId}&eventoId=${eventoId}`
+    `https://apionair.herokuapp.com/entradas/?userId=${userId}&eventoId=${eventoId}`
   )
     .then((res) => res.json())
     .then((response) => {
@@ -65,7 +65,7 @@ export function getEntrada(userId, eventoId) {
 
 export function enviarCorreo(entrada) {
   console.log(entrada, "entrada en llamada")
-  return fetch("http://localhost:8080/email", {
+  return fetch("https://apionair.herokuapp.com/email", {
     headers:{
       'Content-Type': 'application/json'
     },

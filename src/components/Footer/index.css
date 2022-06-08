@@ -17,7 +17,7 @@
 }
 
 .enlaceFooter:hover{
-    color: #FF0900;
+    color: #FF0900 ;
 }
 
 .icons{
@@ -27,4 +27,12 @@
 
 .copy{
     color: gray;
+}
+
+.iconFooter{
+    color: white !important;
+}
+
+.iconFooter:hover{
+    color: #FF0900 !important;
 }
