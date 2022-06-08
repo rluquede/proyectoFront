@@ -13,6 +13,7 @@ export default function ListaEntradas() {
   const [entradas, setEntradas] = useState([]);
   const [eventos, setEventos] = useState([]);
   const [location, setLocation] = useLocation();
+  const [sinEntradas, setSinEntradas] = useState(false)
 
   const atras = () => {
     setLocation("/");
@@ -26,9 +27,10 @@ export default function ListaEntradas() {
     if (isAuthenticated) {
       let userId = user.sub.split("|");
       getEntradasByUser({ userId: userId[1] }).then((res) => {
+        if(res.message){
+          setSinEntradas(true)
+        }
         setEntradas(res);
-      }).catch((err)=>{
-        setLocation("/errorNotFound")
       })
     }
   }, [isAuthenticated]);
@@ -55,8 +57,13 @@ export default function ListaEntradas() {
             <ArrowLeft size={30} onClick={atras}></ArrowLeft>
           </Col>
         </Row>
-        <h3>Mis Entradas</h3>
+        
 
+        <Row className="mt-5">
+          {sinEntradas?(
+            <h2 >No tienes entradas aún</h2>
+          ):(<h2>Mis Entradas</h2>)}
+        </Row>
         <Row className="mt-4">
           {eventos.map((evento) => (
             <Col md="12" lg="3" key={evento.id}>
