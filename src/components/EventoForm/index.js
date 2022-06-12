@@ -172,7 +172,7 @@ export default function EventoForm(props) {
               <Row>
                 <FormGroup as={Col} md="7">
                   <FloatingLabel
-                    label="Nombre del evento"
+                    label="Nombre del evento*"
                     className="mb-3"
                     controlId="evento.nombre"
                   >
@@ -191,7 +191,7 @@ export default function EventoForm(props) {
 
                 <FormGroup as={Col} md="5">
                   <FloatingLabel
-                    label="Lugar del evento"
+                    label="Lugar del evento*"
                     className="mb-3"
                     controlId="evento.lugar"
                   >
@@ -211,7 +211,7 @@ export default function EventoForm(props) {
               <Row>
                 <FormGroup as={Col} md="3">
                   <FloatingLabel
-                    label="Fecha del Inicio evento"
+                    label="Fecha del Inicio evento*"
                     className="mb-3"
                     controlId="evento.fechaInicio"
                   >
@@ -245,7 +245,7 @@ export default function EventoForm(props) {
                 </FormGroup>
                 <FormGroup as={Col} md="3">
                   <FloatingLabel
-                    label="Nº de entradas"
+                    label="Nº de entradas*"
                     className="mb-3"
                     controlId="evento.stock"
                   >
@@ -263,7 +263,7 @@ export default function EventoForm(props) {
                 </FormGroup>
                 <FormGroup as={Col} md="3">
                   <FloatingLabel
-                    label="precio de las entradas"
+                    label="precio de las entradas*"
                     className="mb-3"
                     controlId="evento.precio"
                   >
