@@ -14,7 +14,7 @@ export default function CarouselInicio() {
               <Carousel.Item>
                 <img
                   src={evento1}
-                  alt="hola"
+                  alt="Evento1"
                   className="d-block w-100 h-20 carouselImg"
                 />
                 <Carousel.Caption>
@@ -24,7 +24,7 @@ export default function CarouselInicio() {
               <Carousel.Item>
                 <img
                   src={evento2}
-                  alt="hola"
+                  alt="Evento2"
                   className="d-block w-100 h-20 carouselImg"
                 />
                 <Carousel.Caption>
@@ -34,7 +34,7 @@ export default function CarouselInicio() {
               <Carousel.Item>
                 <img
                   src={evento3}
-                  alt="hola"
+                  alt="Evento3"
                   className="d-block w-100 h-20 carouselImg"
                 />
                 <Carousel.Caption>
