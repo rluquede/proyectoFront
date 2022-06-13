@@ -31,8 +31,14 @@ export default function Footer(){
                 </Col>
             </Row>
             <Row className="copy mt-3">
-                <p>Proyecto de fin de ciclo superior</p>
-            <p>2022 &copy; On Air. Todos los derechos reservados</p>
+               <Col>
+               <p>Proyecto de fin de ciclo superior</p>
+               </Col>
+            </Row>
+            <Row className="copy">
+                <Col>
+                <p>2022 &copy; On Air. Todos los derechos reservados</p>
+                </Col>
             </Row>
         </Container>
     )
