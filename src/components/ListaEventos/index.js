@@ -9,9 +9,7 @@ export default function ListaEventos() {
   const [eventos, setEventos] = useState([]);
   const [location, setLocation] = useLocation();
 
-  const atras = () => {
-    setLocation("/");
-  };
+ 
   useEffect(() => {
     getEventos.then((res) => {
       const eventos = res.map((evento) => evento);

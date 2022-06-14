@@ -30,28 +30,30 @@ export default function Contacto() {
       pregunta: evento.target[3].value,
     };
 
-    enviarCorreoContacto(mensaje).then((res) => {
-      console.log(res);
-      setAlertMsg({
-        msg: "Correo enviado, miraremos tu cuestión",
-        type: "success",
+    enviarCorreoContacto(mensaje)
+      .then((res) => {
+        console.log(res);
+        setAlertMsg({
+          msg: "Correo enviado, miraremos tu cuestión",
+          type: "success",
+        });
+        setLoading(false);
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 5000);
+      })
+      .catch((err) => {
+        setAlertMsg({
+          msg: "No se ha podido enviar la pregunta. vuelva a intentarlo",
+          type: "danger",
+        });
+        setLoading(false);
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 5000);
       });
-      setLoading(false);
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 5000);
-    }).catch((err)=>{
-      setAlertMsg({
-        msg: "No se ha podido enviar la pregunta. vuelva a intentarlo",
-        type: "danger",
-      });
-      setLoading(false);
-      setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 5000);
-    });
   };
 
   return (
@@ -132,7 +134,11 @@ export default function Contacto() {
             <Row className="mt-5">
               <Col>
                 <Button variant="danger" type="submit" size="lg">
-                {loading?(<Spinner animation="border" variant="light" size="sm" />):""}
+                  {loading ? (
+                    <Spinner animation="border" variant="light" size="sm" />
+                  ) : (
+                    ""
+                  )}
                   Enviar
                 </Button>
               </Col>

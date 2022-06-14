@@ -1,12 +1,12 @@
 import { Carousel, Col, Container, Row } from "react-bootstrap";
-import "./index.css"
-import evento1 from "../../img/webp/evento1.webp"
-import evento2 from "../../img/webp/evento2.webp"
-import evento3 from "../../img/webp/evento3.webp"
+import "./index.css";
+import evento1 from "../../img/webp/evento1.webp";
+import evento2 from "../../img/webp/evento2.webp";
+import evento3 from "../../img/webp/evento3.webp";
 
 export default function CarouselInicio() {
-    return (
-        <>
+  return (
+    <>
       <Container fluid>
         <Row>
           <Col id="colCarousel">
@@ -45,6 +45,6 @@ export default function CarouselInicio() {
           </Col>
         </Row>
       </Container>
-      </>
-    );
-  }
+    </>
+  );
+}

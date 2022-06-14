@@ -10,6 +10,7 @@ export default function Evento(params) {
   const { user, isAuthenticated } = useAuth0();
   const [show, setShow] = useState(false);
   const [eventoBorrar, setEventoBorrar] = useState();
+  
   const vista = () => {
     setLocation(`/evento/${params.evento.id}`);
   };
@@ -20,7 +21,6 @@ export default function Evento(params) {
   };
 
   const borrar = () => {
-    //console.log(eventoBorrar);
     deleteEvento(eventoBorrar).then(() => {
       setShow(false);
       window.location.reload();

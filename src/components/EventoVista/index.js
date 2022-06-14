@@ -165,7 +165,7 @@ export default function EventoVista(props) {
         setPrecio(data.precio);
       })
       .catch((err) => {
-        setLocation("/");
+        setLocation("/errorNotFound");
       });
   }, []);
 
@@ -182,14 +182,7 @@ export default function EventoVista(props) {
   };
 
   const datosCompra = (e) => {
-    e.preventDefault();
-    let datosCompra = {
-      nombre: e.target[0].value + " " + e.target[1].value,
-      email: e.target[2].value,
-      nEntradas: nEntradas,
-      precio: precio,
-    };
-    //console.log(datosCompra);
+    e.preventDefault();    
     setShow(true);
   };
 

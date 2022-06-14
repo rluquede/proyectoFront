@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export let entradas = null;
-
+//funcion para crear entradas
 export async function postEntradas(userId, eventoId, numeroEntradas, email) {
   let entrada = new Object();
   entrada.userId = userId;
@@ -22,7 +22,7 @@ export async function postEntradas(userId, eventoId, numeroEntradas, email) {
       console.log(err);
     });
 }
-
+//funcion para obtener entradas por el id del usuario
 export default function getEntradasByUser({ userId }) {
   return fetch(`https://apionair.herokuapp.com/entradas/${userId}`)
     .then((res) => res.json())
@@ -30,7 +30,7 @@ export default function getEntradasByUser({ userId }) {
       return response;
     });
 }
-
+//borrar entrada
 export function deleteEntrada(userId, eventoId) {
   return fetch(`https://apionair.herokuapp.com/entradas/${eventoId}?userId=${userId}`, {
     method: "DELETE",
@@ -40,7 +40,7 @@ export function deleteEntrada(userId, eventoId) {
       console.log(err);
     });
 }
-
+//actualizar entrada
 export function updateEntrada(userId, eventoId, numeroEntradas) {
   return fetch(
     `https://apionair.herokuapp.com/entradas/?userId=${userId}&eventoId=${eventoId}&numeroEntradas=${numeroEntradas}`,
@@ -49,7 +49,7 @@ export function updateEntrada(userId, eventoId, numeroEntradas) {
     }
   );
 }
-
+//obtener entrada por id de usuario e id de evento
 export function getEntrada(userId, eventoId) {
   return fetch(
     `https://apionair.herokuapp.com/entradas/?userId=${userId}&eventoId=${eventoId}`
@@ -62,7 +62,7 @@ export function getEntrada(userId, eventoId) {
       return false;
     });
 }
-
+//funcion para enviar el correo de las entradas
 export function enviarCorreo(entrada) {
   console.log(entrada, "entrada en llamada")
   return fetch("https://apionair.herokuapp.com/email", {

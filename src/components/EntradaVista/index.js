@@ -28,7 +28,6 @@ export default function EntradaVista(props) {
   const [evento, setEvento] = useState({});
   const [entrada, setEntrada] = useState({});
   const { user, isAuthenticated } = useAuth0();
-  const [cargado, setCargado] = useState(false);
   const [location, setLocation] = useLocation();
   const [show, setShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
