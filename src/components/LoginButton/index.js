@@ -8,7 +8,7 @@ export default function LoginButton() {
     <Button
       onClick={() => loginWithRedirect()}
       id="loginButton"
-      variant="primary"
+      variant="danger"
       className="btn-margin"
     >
         Iniciar Sesión

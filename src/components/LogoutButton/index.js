@@ -8,7 +8,7 @@ export default function LogoutButton() {
     <Button
       onClick={() => logout()}
       id="logoutButton"
-      variant="danger"
+      variant="link danger"
       className="btn-margin"
     >
         Cerrar Sesión
