@@ -26,7 +26,7 @@ export default function ListaEventos() {
     <Container fluid>
       <Row className="mt-4">
         {eventos.map((evento) => (
-          <Col md="12" lg="3"  key={evento.id}>
+          <Col xs="12" md="6"  xl="3" key={evento.id}>
             <Evento evento={evento}></Evento>
           </Col>
         ))}
