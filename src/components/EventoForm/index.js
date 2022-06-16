@@ -310,7 +310,7 @@ export default function EventoForm(props) {
                       ) : (
                         ""
                       )}
-                      &nbsp; Enviar
+                      &nbsp; Crear
                     </Button>
                   )}
                 </Col>
