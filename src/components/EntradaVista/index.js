@@ -183,7 +183,7 @@ export default function EntradaVista(props) {
                     ) : (
                       ""
                     )}{" "}
-                    Descargar Entradas
+                    &nbsp; Descargar Entradas
                   </Button>
                 </Col>
               </Row>
@@ -222,7 +222,7 @@ export default function EntradaVista(props) {
             ) : (
               ""
             )}{" "}
-            Devolver
+            &nbsp; Devolver
           </Button>
         </Modal.Footer>
       </Modal>

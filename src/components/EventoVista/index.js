@@ -60,6 +60,7 @@ export default function EventoVista(props) {
         type: "card",
         card: elements.getElement(CardElement),
       });
+      setShow(false)
       setLoading(true);
       if (!error) {
         
@@ -114,7 +115,6 @@ export default function EventoVista(props) {
                       type: "success",
                     });
                     setLoading(false)
-                    setShow(false);
                     setShowAlert(true);
                     setTimeout(() => {
                       setShowAlert(false);
@@ -136,7 +136,6 @@ export default function EventoVista(props) {
             type: "danger",
           });
           setLoading(false)
-          setShow(false);
           setShowAlert(true);
           setTimeout(() => {
             setShowAlert(false);
@@ -150,7 +149,6 @@ export default function EventoVista(props) {
       <form onSubmit={comprar}>
         <CardElement options={{ hidePostalCode: true }} />
         <Button onClick={comprar} className="mt-4" variant="danger">
-        {loading?(<Spinner animation="border" variant="light" size="sm" />):""}
           Comprar
         </Button>
       </form>
@@ -286,7 +284,8 @@ export default function EventoVista(props) {
               </Row>
               <FormGroup className="button">
                 <Button type="submit" size="lg" variant="danger">
-                  Comprar
+                {loading?(<Spinner animation="border" variant="light" size="sm" />):" "}
+                &nbsp; Comprar
                 </Button>
               </FormGroup>
             </Form>
@@ -303,7 +302,6 @@ export default function EventoVista(props) {
         show={show}
         onHide={() => {
           setShow(false);
-          setLoading(false);
         }}
       >
         <Modal.Header>

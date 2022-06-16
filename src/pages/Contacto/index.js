@@ -139,7 +139,7 @@ export default function Contacto() {
                   ) : (
                     ""
                   )}
-                  Enviar
+                  &nbsp; Enviar
                 </Button>
               </Col>
             </Row>

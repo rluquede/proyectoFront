@@ -301,7 +301,7 @@ export default function EventoForm(props) {
                       ) : (
                         ""
                       )}
-                       Actualizar
+                      &nbsp; Actualizar
                     </Button>
                   ) : (
                     <Button variant="danger" type="submit" size="lg">
@@ -310,7 +310,7 @@ export default function EventoForm(props) {
                       ) : (
                         ""
                       )}
-                       Enviar
+                      &nbsp; Enviar
                     </Button>
                   )}
                 </Col>
