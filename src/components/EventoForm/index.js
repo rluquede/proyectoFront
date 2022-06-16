@@ -101,7 +101,7 @@ export default function EventoForm(props) {
 
   const actualizarEvento = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     if (event.target[6].files[0]) {
       let file = event.target[6].files[0];
       let storageRef = ref(storage, "eventos/" + file.name);
