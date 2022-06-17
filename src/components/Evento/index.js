@@ -15,11 +15,13 @@ export default function Evento(params) {
     setLocation(`/evento/${params.evento.id}`);
   };
 
+  //Mostrar modal
   const modalBorrar = () => {
     setEventoBorrar(params.evento.id);
     setShow(true);
   };
 
+  //borrar evento
   const borrar = () => {
     deleteEvento(eventoBorrar).then(() => {
       setShow(false);
@@ -27,6 +29,7 @@ export default function Evento(params) {
     });
   };
 
+  //nos movemos a la vista de actualizar
   const actualizar = () => {
     setLocation(`/actualizarEvento/${params.evento.id}`);
   };

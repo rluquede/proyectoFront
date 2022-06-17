@@ -54,6 +54,7 @@ export default function EventoVista(props) {
     const stripe = useStripe();
     const elements = useElements();
 
+    //Funcion para comprar entrada
     const comprar = async (e) => {
       e.preventDefault();
       const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -155,6 +156,7 @@ export default function EventoVista(props) {
     );
   };
 
+  //Obtenemos el evento
   useEffect(() => {
     getEvento({ id: props.params.id })
       .then((data) => {
@@ -167,6 +169,7 @@ export default function EventoVista(props) {
       });
   }, []);
 
+  //Actualizar precio
   useEffect(() => {
     setPrecio(nEntradas * evento.precio);
   }, [nEntradas]);
@@ -179,6 +182,7 @@ export default function EventoVista(props) {
     setLocation("/");
   };
 
+  //Mostramos el modal
   const datosCompra = (e) => {
     e.preventDefault();    
     setShow(true);

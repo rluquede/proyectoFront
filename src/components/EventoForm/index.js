@@ -34,12 +34,14 @@ export default function EventoForm(props) {
   const [loading, setLoading] = useState(false);
   const { user, isAuthenticated } = useAuth0();
  
+  //Comprobación para saber si estas autenticado y eres admin
   if(!isAuthenticated ){
     setLocation("/errorUnauthorized");
   }else if(isAuthenticated && !user.nickname == "admin"){
     setLocation("/errorUnauthorized");
   }
 
+  //Descargar evento en caso de actualizar
   useEffect(() => {
     if (props.params.id) {
       getEvento({ id: props.params.id }).then((data) => {
@@ -99,6 +101,7 @@ export default function EventoForm(props) {
     });
   };
 
+  //Funcion para actualizar evento
   const actualizarEvento = async (event) => {
     event.preventDefault();
     setLoading(true);

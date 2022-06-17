@@ -38,6 +38,7 @@ export default function EntradaVista(props) {
     setLocation("/errorUnauthorized");
   }
 
+  //Descargamos entrada
   useEffect(() => {
     if (isAuthenticated) {
       let userId = user.sub.split("|");
@@ -51,6 +52,7 @@ export default function EntradaVista(props) {
     }
   }, [isAuthenticated]);
 
+  //Descargamos evento de la entrada
   useEffect(() => {
     getEvento({ id: props.params.id })
       .then((data) => {
@@ -61,6 +63,7 @@ export default function EntradaVista(props) {
       });
   }, []);
 
+  //Funcion para enviar correo
   const enviarEntradas = () => {
     setLoading(true);
     let entradaEmail = {
@@ -98,10 +101,12 @@ export default function EntradaVista(props) {
       });
   };
 
+  //Funcion para volver atras
   const atras = () => {
     setLocation("/misEntradas");
   };
 
+  //Funcion para devolver entrada
   const devolverEntrada = () => {
     setLoading(true);
     let nuevoStock = evento.stock + entrada.numeroEntradas;

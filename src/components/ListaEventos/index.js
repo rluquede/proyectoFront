@@ -9,7 +9,7 @@ export default function ListaEventos() {
   const [eventos, setEventos] = useState([]);
   const [location, setLocation] = useLocation();
 
- 
+ //Obtenemos los eventos
   useEffect(() => {
     getEventos.then((res) => {
       const eventos = res.map((evento) => evento);

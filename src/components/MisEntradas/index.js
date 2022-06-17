@@ -23,6 +23,7 @@ export default function ListaEntradas() {
     setLocation("/errorUnauthorized");
   }
 
+  //Obtenemos entradas del usuario
   useEffect(() => {
     if (isAuthenticated) {
       let userId = user.sub.split("|");
@@ -35,6 +36,7 @@ export default function ListaEntradas() {
     }
   }, [isAuthenticated]);
 
+  //Obtenemos los eventos de las entradas
   useEffect(() => {
     if (entradas.length > 0) {
       entradas.map((entrada) => {
